@@ -64,7 +64,7 @@ public class Tree<Element: Comparable> {
     }
     
     private func rotateRight(h: Tree) -> Tree? {
-        var x = h.left
+        let x = h.left
         h.left = x?.right
         x?.right = h
         return x
