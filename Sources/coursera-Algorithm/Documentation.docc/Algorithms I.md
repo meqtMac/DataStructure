@@ -21,4 +21,8 @@ Notes of Algorithms course provided Robert Sedgewick and Kevin Wayne.
 ### Week1 
 @Links(visualStyle: detailedGrid) {
     - <doc:AnalysisofAlgorithms>
+    - <doc:StacksAndQueues>
+    - <doc:ElementarySorts>
+    - <doc:MergeSort>
+    - <doc:Quicksort>
 }

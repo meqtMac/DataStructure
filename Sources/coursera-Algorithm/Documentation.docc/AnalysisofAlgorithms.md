@@ -39,7 +39,11 @@ Simplification
 ?? things may changed with compiler optimization involved.
 
 ## order-of-growth classifications
+ 
 
 ## theory of algorithms
+|𝚯 | O| 𝛀| 
+|---|---|---|
+| Goal | Upper bound | Lower bound |
 
 ## memory

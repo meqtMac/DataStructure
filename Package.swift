@@ -14,10 +14,15 @@ let package = Package(
         .library(
             name: "DataStructure",
             targets: ["DataStructure"]),
+        .library(
+            name: "Algorithm",
+            targets: ["coursera-Algorithm"]
+        )
     ],
     targets: [
         .target(
-            name: "DataStructure"),
+            name: "DataStructure"
+        ),
         .target(
             name: "coursera-Algorithm"
         ),
