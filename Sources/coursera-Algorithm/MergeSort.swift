@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+//public class Merge {
+//    
+//}
+//extension Sequence where Element: Comparable {
+//    
+//    private static func merge() {
+//        
+//    }
+//}
+
+//func 
