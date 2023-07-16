@@ -1,11 +1,9 @@
 # MergeSort
 
-<!--@START_MENU_TOKEN@-->Summary<!--@END_MENU_TOKEN@-->
+## MergeSort
 
-## Overview
+## Bottom Up MergeSort
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+## Sorting Complexity
 
-### Section header
-
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+## 

@@ -29,6 +29,9 @@ let package = Package(
         .target(
             name: "Swifter"
         ),
+        .target(
+            name: "PureFunctional"
+        ),
         .executableTarget(
             name: "RunTest",
             dependencies: [
