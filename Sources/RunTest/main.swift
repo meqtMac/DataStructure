@@ -1,13 +1,13 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by 蒋艺 on 2023/6/20.
 //
 
 //func makeCaculator(maximum: Int) -> (Int) -> Int {
 //    var cache = [Int?](repeating: nil, count: maximum)
-//    
+//
 //    func fibCaculator(n: Int) -> Int {
 //        if cache[n] == nil {
 //            if n < 2 {
@@ -18,7 +18,7 @@
 //        }
 //        return cache[n] ?? 0
 //    }
-//    
+//
 //    return fibCaculator
 //}
 //
@@ -114,15 +114,50 @@
 
 //print("end")
 
-import DataStructure
+//import DataStructure
+//
+///// reminds me of some lisp code 😇
+//var list = ListNode(1, .node(value: 2, next: .node(value: 3, next: .node(value: 4, next: .empty))))
+//
+//print("origin:", list)
+//list.remove(2)
+//print("after remove:", list)
+//print("removed", list.removed(1))
+//print("list after removed", list)
 
-/// reminds me of some lisp code 😇
-var list = ListNode(1, .node(value: 2, next: .node(value: 3, next: .node(value: 4, next: .empty))))
+import PureFunctional
 
-print("origin:", list)
-list.remove(2)
-print("after remove:", list)
-print("removed", list.removed(1))
-print("list after removed", list)
+typealias Node = TreeNode<Int>
+let tree = Node {
+    1
+    Node {
+        2
+        Node { 1 }
+        Node { 3 }
+    }
+    Node {
+        5
+        Node { 6 }
+        Node { 7 }
+    }
+}
+
+let tree2 = Node {
+    Node {
+        Node { 1 }
+        2
+        Node { 3 }
+    }
+    1
+    Node {
+        Node { 6 }
+        5
+        Node { 7 }
+    }
+}
+
+print(tree.count)
+print(tree2.count)
+print(tree)
 
 

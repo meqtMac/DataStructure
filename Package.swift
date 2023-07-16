@@ -35,7 +35,8 @@ let package = Package(
         .executableTarget(
             name: "RunTest",
             dependencies: [
-                "DataStructure"
+                "DataStructure",
+                "PureFunctional"
             ]
         ),
         .testTarget(
