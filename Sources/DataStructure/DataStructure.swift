@@ -108,6 +108,29 @@ public enum ListNode<Element: Comparable>: CustomStringConvertible {
     }
 }
 
+extension ListNode: Sequence where Element: Comparable {
+    public typealias Iterator = ListIterator
+    public func makeIterator() -> Iterator {
+        return ListIterator(list: self)
+    }
+    public struct ListIterator: IteratorProtocol {
+        var list: ListNode<Element>
+        
+        init(list: ListNode<Element>) {
+            self.list = list
+        }
+        
+        mutating public func next() -> Element? {
+            switch list {
+            case .empty:
+                return nil
+            case let .node(value, next):
+                self.list = next
+                return value
+            }
+       }
+    }
+}
 
 
 //public class Tree<Element: Comparable> {
