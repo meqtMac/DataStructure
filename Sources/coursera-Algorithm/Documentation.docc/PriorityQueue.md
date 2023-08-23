@@ -29,3 +29,21 @@ Proposition: Can use array indices to move through tree.
 #### Immutability: properities
 
 
+### Event-Driven Simulation
+
+#### Time-driven simulation
+Main drawbacks
+- $N^2 / 2$ overlap checks per time quantum.
+- Simulationis too slow if *dt* is very small.
+
+#### Event-driven simulation
+- Between collisions, particles move in straight-lien trajectories
+- Focus only on times when collisions occur.
+- Maintian PQ of collisions events, prioritized by time.
+- Remove the min == get next collision.
+
+- Collision prediction.
+- Collision resolution.
+
+
+

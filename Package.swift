@@ -19,20 +19,31 @@ let package = Package(
             targets: ["coursera-Algorithm"]
         )
     ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-collections.git", branch: "release/1.1"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.3"))
+    ],
     targets: [
         .target(
             name: "DataStructure"
         ),
         .target(
-            name: "coursera-Algorithm"
-        ),
-        .target(
-            name: "Swifter"
+            name: "coursera-Algorithm",
+            dependencies: [
+                .product(name: "Collections", package: "swift-collections")
+            ]
         ),
         .executableTarget(
             name: "RunTest",
             dependencies: [
-                "DataStructure"
+                "DataStructure",
+                .product(name: "Collections", package: "swift-collections")
+            ]
+        ),
+        .executableTarget(
+            name: "Percolation",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
         .testTarget(

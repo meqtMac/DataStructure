@@ -155,3 +155,8 @@ for var node in list {
 print(list)
 
 
+
+import Collections
+
+let heap: Heap = .init(arrayLiteral: 1, 3, 4, 5)
+print(heap)

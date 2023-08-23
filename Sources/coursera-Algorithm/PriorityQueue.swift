@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 // Challenge:
 protocol PiorityQueueProtocol {
     associatedtype Element: Comparable
@@ -62,3 +61,52 @@ struct BinaryHeap<Element> where Element: Comparable {
     
 }
 
+//struct StdDraw {
+//    
+//}
+//
+//struct Ball {
+//    
+//    private var positon: (x: CGFloat, y: CGFloat)
+//    private var velocity: (x: CGFloat, y: CGFloat)
+//    private let radius: CGFloat
+//    
+////    func move(_ value: CGFloat)
+////    func draw(
+//    
+//    // time passed
+//    mutating func move(deltaT: CGFloat) {
+//        let dt = deltaT
+//        // x collide
+//        if (positon.x + velocity.x * dt < radius) || (positon.x + velocity.x * dt > 1.0 - radius) {
+//            velocity = (-velocity.x, velocity.y)
+//        }
+//        // y collide
+//        if (positon.y + velocity.y * dt < radius) || (positon.y + velocity.y * dt > 1.0 - radius) {
+//            velocity = (velocity.x, velocity.y)
+//        }
+//        
+//        positon.x += velocity.x * dt
+//        positon.y += velocity.y * dt
+//    }
+//    
+//    func draw() {
+//        
+//    }
+//}
+//
+//public struct BouncingBalls {
+//    func main() {
+//        let n = 100
+//        let balls = [Ball](repeating: Ball(), count: n)
+//        while true {
+//            StdDraw.clear()
+//            for i in balls.indices {
+//                balls[i].move(0.5)
+//                balls[i].draw();
+//            }
+//            StdDraw.show()
+//        }
+//    }
+//    
+//}

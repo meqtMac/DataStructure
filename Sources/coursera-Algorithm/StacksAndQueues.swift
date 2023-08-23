@@ -84,3 +84,49 @@ public class Evaluator {
     }
 }
 
+
+protocol DequeProtocol: Sequence {
+    associatedtype Element
+    var isEmpty: Bool { get }
+    var count: Int { get }
+    mutating func addFirst(_ element: Element)
+    mutating func addLast(_ element: Element)
+    mutating func removeFirst() -> Element?
+    mutating func removeLast() -> Element?
+}
+
+
+//public struct Deque<Element>: Sequence {
+//    public var isEmpty: Bool
+//    public var count: Int
+//}
+
+@propertyWrapper
+struct CodedAsString: Codable {
+    var wrappedValue: Double
+    init(wrappedValue: Double) {
+        self.wrappedValue = wrappedValue
+    }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let str = try container.decode(String.self)
+        guard let value = Double(str) else {
+            let error = EncodingError.Context(
+                codingPath: container.codingPath,
+                debugDescription: "Invaild string representation of double value"
+            )
+            throw EncodingError.invalidValue(str, error)
+        }
+        wrappedValue = value
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(String(wrappedValue))
+    }
+}
+
+struct Coordinate: Codable {
+    @CodedAsString var latitude: Double
+    @CodedAsString var longitude: Double
+}
