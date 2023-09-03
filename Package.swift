@@ -16,7 +16,7 @@ let package = Package(
             targets: ["DataStructure"]),
         .library(
             name: "Algorithm",
-            targets: ["coursera-Algorithm"]
+            targets: ["Algorithm"]
         )
     ],
     dependencies: [
@@ -28,7 +28,7 @@ let package = Package(
             name: "DataStructure"
         ),
         .target(
-            name: "coursera-Algorithm",
+            name: "Algorithm",
             dependencies: [
                 .product(name: "Collections", package: "swift-collections")
             ]
@@ -37,6 +37,7 @@ let package = Package(
             name: "RunTest",
             dependencies: [
                 "DataStructure",
+                "Algorithm",
                 .product(name: "Collections", package: "swift-collections")
             ]
         ),
@@ -47,7 +48,14 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "PercolationTests",
+            dependencies: ["Percolation"],
+            swiftSettings: [.unsafeFlags(["-O"])]
+        ),
+        .testTarget(
             name: "DataStructureTests",
-            dependencies: ["DataStructure"]),
+            dependencies: ["DataStructure"],
+            swiftSettings: [.unsafeFlags(["-O"])]
+        ),
     ]
 )

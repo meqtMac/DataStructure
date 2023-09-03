@@ -156,7 +156,22 @@ print(list)
 
 
 
-import Collections
+//import Collections
+//
+//let heap: Heap = .init(arrayLiteral: 1, 3, 4, 5)
+//print(heap)
 
-let heap: Heap = .init(arrayLiteral: 1, 3, 4, 5)
-print(heap)
+import Algorithm
+
+//var heap = MinHeap(from: (0...1000).map { _ in Int.random(in: 0...1000) } )
+//
+//for _ in 0...1000 {
+//    print( heap.pop() )
+//}
+var heap = Heap(from: (0...1000).map{ _ in Int.random(in: 0...10000) }, comparator: <)
+
+for _ in 0...1000 {
+    print(heap.pop()!)
+}
+
+

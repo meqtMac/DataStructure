@@ -55,3 +55,38 @@ struct QuickUnion: Union {
         }
     }
 }
+
+/// Weighted quick-union with path compression: any sequence of M union-find ops on N objects makes `<= c (N + M lg^* N)` array accesses.
+struct QuickUnionUF: Union {
+    typealias Index = Int
+    private var ids: [Int]
+    /// self included for the child count
+    private var childCount: [Int]
+    
+    let n: Int
+    init(n: Int) {
+        self.n = n
+        ids = (0..<n).map { $0 }
+        childCount = [Int](repeating: 1, count: n)
+    }
+    
+    private func root(of index: Int) -> Int {
+        var i = index
+        while (i != ids[i]) {
+            i = ids[i]
+        }
+        return i
+    }
+    
+    /// `lg(n)` in worst case
+    func isConnected(left: Int, right: Int) -> Bool {
+        root(of: left) == root(of: right)
+    }
+    
+    /// `lg(n)`
+    mutating func union(left: Int, right: Int) {
+        let i = root(of: left)
+        let j = root(of: right)
+        ids[i] = j
+   }
+}
