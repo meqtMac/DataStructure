@@ -94,3 +94,116 @@ public class DepthFirstPaths {
     }
 }
 
+
+/// Preprocess graph to answer queries of the form is `v` connected to `w`? in **constant** time.
+/// The relation `is connected to` is an equivalence relation
+/// - Reflexive
+/// - Symmertic
+/// - Transitive
+/// Def: A connected component is a maximal set of connected vertices
+/// Goal: Partition vertices into connected components
+protocol Connectivity {
+    associatedtype Element
+    /// are lhs and rhs connected
+    func isConnected(lhs: Element, rhs: Element) -> Bool
+    /// number of connected components
+    func counted() -> Int
+//    / component identifier for v
+//    func id(of v: Element) -> Int
+    var id: [Int] { get }
+}
+
+extension Connectivity where Element == Int{
+    func isConnected(lhs: Element, rhs: Element) -> Bool {
+        id[lhs] == id[rhs]
+    }
+}
+
+/**
+ - To Mark vertex `v` as visited, Recursively visit all unmarked vertices adjacent to `v`.
+ - Recursively visit all unmarked vertices adjacent to v.
+ */
+
+public struct ConnectedComponent: Connectivity {
+    typealias Element = Int
+    
+    func counted() -> Int {
+        self.connectedCount
+    }
+    
+    let id: [Int]
+    let connectedCount: Int
+    
+    public init(with graph: some GraphProtocol) {
+       (self.id, self.connectedCount) = Self.dfs(on: graph)
+    }
+    
+    private static func dfs(on graph: some GraphProtocol) -> ([Int], Int) {
+        var marked = [Bool](repeating: false, count: graph.verticeCount)
+        var id = (0..<graph.verticeCount).map { $0 }
+        var connectedCount = 0
+        
+        func dfsHelper(from vertice: Int) {
+            marked[vertice] = true
+            id[vertice] = connectedCount
+            for connectedVertice in graph.adjacent(to: vertice) {
+                if !marked[connectedVertice] {
+                    dfsHelper(from: connectedVertice)
+                }
+            }
+        }
+        
+        for i in 0..<graph.verticeCount {
+            if (!marked[i]) {
+                dfsHelper(from: i)
+                connectedCount += 1
+            }
+        }
+        
+        return (id, connectedCount)
+    }
+}
+
+/**
+ Graph-processing challenges
+ - 1: bipartite
+ - 2: Find a cycle
+ - 3: Bridges of Könighsberg: Find a (general) cycle that uses every **edge** exactly once.
+ - 4: Find a cycle that visits every **vertex** exactly once.
+     - Intractable: Hamiltonian cycle (classical NP-complete problem)
+ - 5: Are two graphs identical except for vertex name?
+ - 6: Lay out a graph in the plane without crossing edges?
+    linear-Time DFS-based planarit algorithm discovered by Tarjan in 1970s.
+ */
+
+extension GraphProtocol {
+    func longestPath() -> [Int] {
+        var longestPath: [Int] = []
+        var visited = [Bool](repeating: false, count: verticeCount)
+        var path: [Int] = []
+        
+        func dfsHelper(from vertice: Int) {
+            visited[vertice] = true
+            path.append(vertice)
+            
+            for adjecentVertice in adjacent(to: vertice) {
+                if !visited[adjecentVertice] {
+                    dfsHelper(from: adjecentVertice)
+                }
+            }
+            if path.count > longestPath.count {
+                longestPath = path
+            }
+            visited[vertice] = false
+            path.removeLast()
+        }
+        
+        for vertice in 0..<verticeCount {
+            path = []
+            visited = [Bool](repeating: false, count: verticeCount)
+            dfsHelper(from: vertice)
+        }
+        
+        return longestPath
+    }
+}
