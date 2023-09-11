@@ -7,40 +7,67 @@
 
 import Foundation
 public protocol GraphProtocol {
+    typealias Vertice = Int
     init(vertices: Int)
     /// init from input stream
-    mutating func addEdge(from left: Int, to right: Int)
-    func adjacent(to vertice: Int) -> [Int]
+    mutating func addEdge(from left: Vertice, to right: Vertice)
+    func adjacent(to vertice: Vertice) -> [Vertice]
     var verticeCount: Int { get }
-    var edgeCount: Int { get set }
+    var edgeCount: Int { get}
     
-    func degree(of vertice: Int) -> Int
+    func degree(of vertice: Vertice) -> Int
     func maxDegree() -> Int
     func averageDegree() -> Double
     func numberOfSelfLoops() -> Int
 }
 
 extension GraphProtocol {
-    func degree(of vertice: Int) -> Int {
+    public func degree(of vertice: Vertice) -> Int {
         adjacent(to: vertice).count
     }
-    func maxDegree() -> Int {
+    public func maxDegree() -> Int {
         (0..<verticeCount)
             .map { degree(of: $0) }
             .max() ?? 0
     }
-    func averageDegree() -> Double {
+    public func averageDegree() -> Double {
         (0..<verticeCount)
             .map { degree(of: $0) }
             .reduce(0) { $0 + Double($1) }  / Double(verticeCount)
     }
     
-    func numberOfSelfLoops() -> Int {
+    public func numberOfSelfLoops() -> Int {
         (0..<verticeCount)
             .filter { adjacent(to: $0).contains($0) }
             .count / 2
     }
 }
+
+public struct Graph: GraphProtocol {
+    public func adjacent(to vertice: Vertice) -> [Vertice] {
+        adjacencyList[vertice]
+    }
+    
+    public typealias AdjecentVertices = [Vertice]
+    public let verticeCount: Int
+    public var edgeCount: Int {
+        adjacencyList.reduce(0) { partialResult, vertices in
+            partialResult +  vertices.count
+        }
+    }
+    private var adjacencyList: [AdjecentVertices]
+    
+    public init(vertices: Int) {
+        verticeCount = vertices
+        adjacencyList = .init(repeating: [], count: vertices)
+    }
+    
+    public mutating func addEdge(from v: Vertice, to w: Vertice) {
+        adjacencyList[v].append(w)
+    }
+}
+
+
 
 /// Adjacency-matrix graph representation
 /// Adjacency-list graph representation
@@ -52,7 +79,6 @@ extension GraphProtocol {
  - Pass the Graph to a graph-processing routine
  - Query the graph-processing routine for information
  */
-
 public class DepthFirstPaths {
     private var marked: [Bool]
     private var edgeTo: [Int]
@@ -123,7 +149,6 @@ extension Connectivity where Element == Int{
  - To Mark vertex `v` as visited, Recursively visit all unmarked vertices adjacent to `v`.
  - Recursively visit all unmarked vertices adjacent to v.
  */
-
 public struct ConnectedComponent: Connectivity {
     typealias Element = Int
     
@@ -175,35 +200,3 @@ public struct ConnectedComponent: Connectivity {
  - 6: Lay out a graph in the plane without crossing edges?
     linear-Time DFS-based planarit algorithm discovered by Tarjan in 1970s.
  */
-
-extension GraphProtocol {
-    func longestPath() -> [Int] {
-        var longestPath: [Int] = []
-        var visited = [Bool](repeating: false, count: verticeCount)
-        var path: [Int] = []
-        
-        func dfsHelper(from vertice: Int) {
-            visited[vertice] = true
-            path.append(vertice)
-            
-            for adjecentVertice in adjacent(to: vertice) {
-                if !visited[adjecentVertice] {
-                    dfsHelper(from: adjecentVertice)
-                }
-            }
-            if path.count > longestPath.count {
-                longestPath = path
-            }
-            visited[vertice] = false
-            path.removeLast()
-        }
-        
-        for vertice in 0..<verticeCount {
-            path = []
-            visited = [Bool](repeating: false, count: verticeCount)
-            dfsHelper(from: vertice)
-        }
-        
-        return longestPath
-    }
-}

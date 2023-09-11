@@ -11,7 +11,7 @@ import XCTest
 final class DataStructureTests: XCTestCase {
     func testExample() throws {
         measure(metrics: [XCTCPUMetric(), XCTClockMetric(), XCTMemoryMetric()]) {
-            PercolationStats(n: 1000, trials: 10)
+            _ = PercolationStats(n: 1000, trials: 10)
         }
     }
 }

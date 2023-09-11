@@ -3,6 +3,9 @@
 
 import PackageDescription
 
+
+//let assignem
+
 let package = Package(
     name: "DataStructure",
     platforms: [
@@ -17,21 +20,26 @@ let package = Package(
         .library(
             name: "Algorithm",
             targets: ["Algorithm"]
-        )
-    ],
+        ),
+   ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-collections.git", branch: "release/1.1"),
         .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.3"))
     ],
     targets: [
-        .target(
-            name: "DataStructure"
+        .target(name: "DataStructure"),
+        .target(name: "Algorithm"),
+        .executableTarget(
+            name: "WordNet",
+            dependencies: ["Algorithm"],
+            path: "Sources/Assignments/WordNet",
+            resources: [.copy("Resources/")]
+//            swiftSettings: [.unsafeFlags(["-O"])]
         ),
-        .target(
-            name: "Algorithm",
-            dependencies: [
-                .product(name: "Collections", package: "swift-collections")
-            ]
+        .executableTarget(
+            name: "Percolation",
+            dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+            path: "Sources/Assignments/Percolation"
         ),
         .executableTarget(
             name: "RunTest",
@@ -39,12 +47,6 @@ let package = Package(
                 "DataStructure",
                 "Algorithm",
                 .product(name: "Collections", package: "swift-collections")
-            ]
-        ),
-        .executableTarget(
-            name: "Percolation",
-            dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
         .testTarget(
@@ -57,5 +59,16 @@ let package = Package(
             dependencies: ["DataStructure"],
             swiftSettings: [.unsafeFlags(["-O"])]
         ),
+        .testTarget(
+            name: "AlgorithmTests",
+            dependencies: ["Algorithm"],
+            swiftSettings: [.unsafeFlags(["-O"])]
+        )
     ]
 )
+
+extension Target {
+    static func assignmentTarget(name: String, dependencies: [Dependency]) -> Target {
+        return Target.target(name: name, dependencies: dependencies, path: "Sources/Assignments/\(name)")
+    }
+}
