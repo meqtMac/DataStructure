@@ -52,31 +52,113 @@ public struct QuickUnionDS: DisjointSetsProtocol {
 }
 
 
-public class Tree<Element: Comparable> {
-    public var value: Element
-    public var left: Tree<Element>?
-    public var right: Tree<Element>?
+// TODO: Construct Tree, List and Graph using indirect enum in swift, is it Functional programming?
+public enum TreeNode<Element> {
+    case empty
+    indirect case node(value: Element, left: TreeNode<Element>, right: TreeNode<Element>)
+}
+
+public enum ListNode<Element: Comparable>: CustomStringConvertible {
+    case empty
+    indirect case node(value: Element, next: ListNode<Element> = .empty )
     
-    public init(value: Element, left: Tree<Element>? = nil, right: Tree<Element>? = nil) {
-        self.value = value
-        self.left = left
-        self.right = right
+    public var description: String {
+        switch self {
+        case .empty:
+            return ""
+        case .node(let value, let next):
+            let valueDescript = "\(value)"
+            if case .node(_ , _) = next {
+                return valueDescript + " -> " + next.description
+            }else{
+                return valueDescript
+            }
+        }
     }
     
-    private func rotateRight(h: Tree) -> Tree? {
-        var x = h.left
-        h.left = x?.right
-        x?.right = h
-        return x
+    public mutating func remove(_ element: Element) {
+        guard case .node(let value, var next) = self else {
+            return
+        }
+        next.remove(element)
+        if value == element {
+            self = next
+        }else{
+            self = .node(value: value, next: next)
+        }
     }
     
-    private func rotateLeft(h: Tree) -> Tree? {
-        let x = h.right
-        h.right = x?.left
-        x?.left = h
-        return x
+    // TODO: remove a element
+    public func removed(_ element: Element) -> Self {
+        var newList = self
+        newList.remove(element)
+        return newList
+    }
+    
+    public init() {
+        self = .empty
+    }
+    
+    public init(_ element: Element) {
+        self = .node(value: element, next: .empty)
+    }
+    
+    public init(_ element: Element, _ nextNode: Self) {
+        self = .node(value: element, next: nextNode)
     }
 }
+
+extension ListNode: Sequence where Element: Comparable {
+    public typealias Iterator = ListIterator
+    public func makeIterator() -> Iterator {
+        return ListIterator(list: self)
+    }
+    public struct ListIterator: IteratorProtocol {
+        var list: ListNode<Element>
+        
+        init(list: ListNode<Element>) {
+            self.list = list
+        }
+        
+        mutating public func next() -> Element? {
+            switch list {
+            case .empty:
+                return nil
+            case let .node(value, next):
+                self.list = next
+                return value
+            }
+       }
+    }
+}
+
+
+//public class Tree<Element: Comparable> {
+//    public var value: Element
+//    public var left: Tree<Element>?
+//    public var right: Tree<Element>?
+//    
+//    public init(value: Element, left: Tree<Element>? = nil, right: Tree<Element>? = nil) {
+//        self.value = value
+//        self.left = left
+//        self.right = right
+//    }
+//    
+//    private func rotateRight(h: Tree) -> Tree? {
+//        let x = h.left
+//        h.left = x?.right
+//        x?.right = h
+//        return x
+//    }
+//    
+//    private func rotateLeft(h: Tree) -> Tree? {
+//        let x = h.right
+//        h.right = x?.left
+//        x?.left = h
+//        return x
+//    }
+//}
+//
 
 public protocol MinPQ {
     associatedtype Item: Comparable
